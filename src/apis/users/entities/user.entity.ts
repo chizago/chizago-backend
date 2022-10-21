@@ -1,10 +1,12 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
+import { Matching } from 'src/apis/matchings/entities/matching.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -68,4 +70,9 @@ export class User {
   @DeleteDateColumn()
   @Field(() => Date)
   deletedAt: Date;
+
+  //찜
+  @ManyToMany(() => Matching, (matchings) => matchings.users)
+  @Field(() => [Matching])
+  matchings: Matching[];
 }

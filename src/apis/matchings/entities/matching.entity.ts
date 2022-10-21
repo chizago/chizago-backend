@@ -1,11 +1,17 @@
 import { Field, Int, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { Location } from 'src/apis/locations/entites/location.entity';
 import { MatchStyle } from 'src/apis/matchStyles/entities/matchStyle.entity';
+import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -91,4 +97,19 @@ export class Matching {
   @ManyToOne(() => MatchStyle)
   @Field(() => MatchStyle, { nullable: true })
   matchStyle: MatchStyle;
+
+  @ManyToOne(() => User)
+  @Field(() => User, { nullable: true })
+  user: User;
+
+  @JoinColumn()
+  @OneToOne(() => Location)
+  @Field(() => Location, { nullable: true })
+  location: Location;
+
+  //찜
+  @JoinTable()
+  @ManyToMany(() => User, (users) => users.matchings)
+  @Field(() => [User])
+  users: User[];
 }
