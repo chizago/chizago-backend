@@ -1,0 +1,25 @@
+version: '3.7'
+
+services:
+  chizago-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/myfolder/src
+    ports:
+      - 3000:3000
+    env_file:
+      - ./.env
+    environment:
+      - TZ=Asia/Seoul
+
+  chizago-database:
+    platform: linux/x86_64
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: 'chizagodatabase'
+      MYSQL_ROOT_PASSWORD: 'root'
+      TZ: Asia/Seoul
+    ports:
+      - 3306:3306
