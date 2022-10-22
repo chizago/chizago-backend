@@ -6,10 +6,24 @@ import { ApolloDriver } from '@nestjs/apollo';
 import 'dotenv/config';
 import { MatchingsModule } from './apis/matchings/matchings.module';
 import { AppController } from './app.controller';
+import { ApplicantsModule } from './apis/applicants/applicants.module';
+import { FileModule } from './apis/files/file.module';
+import { ImageModule } from './apis/images/image.module';
+import { LessonsModule } from './apis/lessons/lessons.module';
+import { LocationsModule } from './apis/locations/locations.module';
+import { MatchStylesModule } from './apis/matchStyles/matchStyles.module';
+import { UsersModule } from './apis/users/user.module';
 
 @Module({
   imports: [
     MatchingsModule,
+    ApplicantsModule,
+    FileModule,
+    ImageModule,
+    LessonsModule,
+    LocationsModule,
+    MatchStylesModule,
+    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
