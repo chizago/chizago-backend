@@ -1,4 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { ClassApplicant } from 'src/apis/classApplicants/entities/classApplicant.entity';
+import { ClassLike } from 'src/apis/classLikes/entities/classLike.entity';
+import { ClassReview } from 'src/apis/classReviews/entities/classReview.entity';
+import { Image } from 'src/apis/images/entities/image.entity';
+import { Location } from 'src/apis/locations/entites/location.entity';
+import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
   PrimaryGeneratedColumn,
@@ -6,6 +12,11 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  JoinTable,
+  OneToMany,
+  JoinColumn,
+  OneToOne,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity()
@@ -58,4 +69,38 @@ export class Lesson {
   @DeleteDateColumn({ nullable: true })
   @Field(() => Date, { nullable: true })
   deletedAt: Date;
+
+  @JoinTable()
+  @OneToMany(() => Image, (image) => image.lesson, {
+    nullable: true,
+    cascade: true,
+  })
+  @Field(() => [Image], { nullable: true })
+  images: Image[];
+
+  @JoinColumn()
+  @OneToOne(() => Location)
+  location: Location;
+
+  @OneToMany(() => ClassLike, (classLike) => classLike.lesson, {
+    nullable: true,
+  })
+  @Field(() => [ClassLike], { nullable: true })
+  classLike: ClassLike[];
+
+  @OneToMany(() => ClassReview, (classReview) => classReview.lesson, {
+    nullable: true,
+  })
+  @Field(() => [ClassReview], { nullable: true })
+  classReview: ClassReview[];
+
+  @OneToMany(() => ClassApplicant, (classApplicant) => classApplicant.lesson, {
+    nullable: true,
+  })
+  @Field(() => [ClassApplicant], { nullable: true })
+  classApplicant: ClassApplicant[];
+
+  @ManyToOne(() => User, { nullable: true })
+  @Field(() => User, { nullable: true })
+  user: User;
 }

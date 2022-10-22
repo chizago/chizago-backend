@@ -1,8 +1,10 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Lesson } from 'src/apis/lessons/entites/lesson.entity';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -23,4 +25,11 @@ export class Image {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @ManyToOne(() => Lesson, {
+    nullable: true,
+    orphanedRowAction: 'soft-delete',
+  })
+  @Field(() => Lesson, { nullable: true })
+  lesson: Lesson;
 }
