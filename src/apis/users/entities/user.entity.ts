@@ -1,4 +1,5 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
+import { Lesson } from 'src/apis/lessons/entites/lesson.entity';
 import { Matching } from 'src/apis/matchings/entities/matching.entity';
 import {
   Column,
@@ -7,6 +8,7 @@ import {
   Entity,
   JoinColumn,
   ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -75,4 +77,10 @@ export class User {
   @ManyToMany(() => Matching, (matchings) => matchings.users)
   @Field(() => [Matching])
   matchings: Matching[];
+
+  @OneToMany(() => Lesson, (lesson) => lesson.user, {
+    nullable: true,
+  })
+  @Field(() => [Lesson], { nullable: true })
+  lesson: Lesson[];
 }
