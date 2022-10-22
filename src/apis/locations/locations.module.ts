@@ -15,4 +15,4 @@ import { LocationsService } from './locations.service';
     LocationsService,
   ],
 })
-export class LessonsModule {}
+export class LocationsModule {}
