@@ -13,6 +13,8 @@ import { LessonsModule } from './apis/lessons/lessons.module';
 import { LocationsModule } from './apis/locations/locations.module';
 import { MatchStylesModule } from './apis/matchStyles/matchStyles.module';
 import { UsersModule } from './apis/users/user.module';
+import { ReportsModule } from './apis/reports/reports.module';
+import { ReviewsModule } from './apis/reviews/reviews.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { UsersModule } from './apis/users/user.module';
     LocationsModule,
     MatchStylesModule,
     UsersModule,
+    ReviewsModule,
+    ReportsModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),

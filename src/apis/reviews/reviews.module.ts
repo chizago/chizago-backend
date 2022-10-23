@@ -15,4 +15,4 @@ import { ReviewsService } from './reviews.service';
     ReviewsService,
   ],
 })
-export class ReviewesModule {}
+export class ReviewsModule {}
