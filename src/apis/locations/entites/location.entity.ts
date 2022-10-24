@@ -8,23 +8,23 @@ export class Location {
   @Field(() => String)
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { nullable: true })
   address: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { nullable: true })
   addressDetail: string;
 
-  @Column()
+  @Column({ type: 'float', nullable: true })
   @Field(() => Float, { nullable: true })
   lat: number;
 
-  @Column()
+  @Column({ type: 'float', nullable: true })
   @Field(() => Float, { nullable: true })
   lng: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String, { nullable: true })
   zipcode: string;
 }
