@@ -3,22 +3,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Location } from '../locations/entites/location.entity';
 import { MatchStyle } from '../matchStyles/entities/matchStyle.entity';
 import { User } from '../users/entities/user.entity';
-import { Matching } from './entities/matching.entity';
-import { MatchingsResolver } from './matchings.resolver';
-import { MatchingsService } from './matchings.service';
+import { Match } from './entities/match.entity';
+import { MatchesResolver } from './matchings.resolver';
+import { MatchesService } from './matchings.service';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      Matching, //
+      Match, //
       Location,
       MatchStyle,
       User,
     ]),
   ],
   providers: [
-    MatchingsResolver, //
-    MatchingsService,
+    MatchesResolver, //
+    MatchesService,
   ],
 })
-export class MatchingsModule {}
+export class MatchesModule {}

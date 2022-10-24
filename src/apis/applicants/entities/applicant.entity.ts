@@ -1,5 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import { Matching } from 'src/apis/matchings/entities/matching.entity';
+import { Match } from 'src/apis/matches/entities/match.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -18,7 +18,7 @@ export class Applicant {
   @Field(() => User, { nullable: true })
   user: User;
 
-  @ManyToOne(() => Matching)
-  @Field(() => Matching, { nullable: true })
-  matching: Matching;
+  @ManyToOne(() => Match)
+  @Field(() => Match, { nullable: true })
+  matching: Match;
 }

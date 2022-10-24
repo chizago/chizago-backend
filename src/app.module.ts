@@ -4,7 +4,6 @@ import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver } from '@nestjs/apollo';
 import 'dotenv/config';
-import { MatchingsModule } from './apis/matchings/matchings.module';
 import { AppController } from './app.controller';
 import { ApplicantsModule } from './apis/applicants/applicants.module';
 import { FileModule } from './apis/files/file.module';
@@ -15,19 +14,20 @@ import { MatchStylesModule } from './apis/matchStyles/matchStyles.module';
 import { UsersModule } from './apis/users/user.module';
 import { ReportsModule } from './apis/reports/reports.module';
 import { ReviewsModule } from './apis/reviews/reviews.module';
+import { MatchesModule } from './apis/matches/matchings.module';
 
 @Module({
   imports: [
-    MatchingsModule,
     ApplicantsModule,
     FileModule,
     ImageModule,
     LessonsModule,
     LocationsModule,
+    MatchesModule,
     MatchStylesModule,
-    UsersModule,
-    ReviewsModule,
     ReportsModule,
+    ReviewsModule,
+    UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
