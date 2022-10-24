@@ -62,10 +62,6 @@ export class Matching {
   date: Date;
 
   @Column({ nullable: true })
-  @Field(() => String, { nullable: true })
-  time: string;
-
-  @Column({ nullable: true })
   @Field(() => Int, { nullable: true })
   player: number;
 
