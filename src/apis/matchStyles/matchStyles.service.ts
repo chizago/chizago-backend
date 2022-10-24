@@ -9,4 +9,14 @@ export class MatchStylesService {
     @InjectRepository(MatchStyle)
     private readonly matchStyleRepository: Repository<MatchStyle>,
   ) {}
+
+  findOne(matchStyle: string) {
+    return this.matchStyleRepository.findOne({
+      where: { matchStyleName: matchStyle },
+    });
+  }
+
+  create(matchStyleName: string, player: number) {
+    return this.matchStyleRepository.save({ matchStyleName, player });
+  }
 }
