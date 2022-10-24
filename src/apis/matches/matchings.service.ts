@@ -25,6 +25,17 @@ export class MatchesService {
     private readonly connection: Connection,
   ) {}
 
+  findOne(matchId: string) {
+    return this.matchRepository.findOne({
+      where: { id: matchId },
+      relations: {
+        matchStyle: true,
+        user: true,
+        location: true,
+      },
+    });
+  }
+
   async create(
     createMatchInput: CreateMatchInput, //
     email: string,
