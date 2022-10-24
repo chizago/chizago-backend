@@ -4,13 +4,14 @@ import { Connection, Repository } from 'typeorm';
 import { Location } from '../locations/entites/location.entity';
 import { MatchStyle } from '../matchStyles/entities/matchStyle.entity';
 import { User } from '../users/entities/user.entity';
-import { Matching } from './entities/matching.entity';
+import { CreateMatchInput } from './dto/createMatch.input';
+import { Match } from './entities/match.entity';
 
 @Injectable()
-export class MatchingsService {
+export class MatchesService {
   constructor(
-    @InjectRepository(Matching)
-    private readonly matchingRepository: Repository<Matching>,
+    @InjectRepository(Match)
+    private readonly matchRepository: Repository<Match>,
 
     @InjectRepository(Location)
     private readonly locationRepository: Repository<Location>,
@@ -24,7 +25,10 @@ export class MatchingsService {
     private readonly connection: Connection,
   ) {}
 
-  async create(createMatchInput, email) {
+  async create(
+    createMatchInput: CreateMatchInput, //
+    email: string,
+  ) {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
 
@@ -60,7 +64,7 @@ export class MatchingsService {
       });
 
       //temporary - 모집 연령을 max, min으로 나눌지 string으로 받을 지 한 연령대만 넣을 지 상의가 안돼었으므로 현재 db에 따라 개발
-      const newMatching = this.matchingRepository.create({
+      const newMatching = this.matchRepository.create({
         ...matching,
         ageMax: age,
         ageMin: age,

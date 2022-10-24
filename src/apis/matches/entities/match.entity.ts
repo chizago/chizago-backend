@@ -16,19 +16,19 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-export enum MATCHING_STATUS_ENUM {
+export enum MATCH_STATUS_ENUM {
   RECRUITING = '모집중',
   RECRUIT_COMPLETE = '모집완료',
   MATCHING_FINISH = '경기종료',
 }
 
-registerEnumType(MATCHING_STATUS_ENUM, {
-  name: 'MATCHING_STATUS_ENUM',
+registerEnumType(MATCH_STATUS_ENUM, {
+  name: 'MATCH_STATUS_ENUM',
 });
 
 @Entity()
 @ObjectType()
-export class Matching {
+export class Match {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => String)
   id: string;
@@ -71,8 +71,8 @@ export class Matching {
 
   @Column({
     type: 'enum',
-    enum: MATCHING_STATUS_ENUM,
-    default: MATCHING_STATUS_ENUM.RECRUITING,
+    enum: MATCH_STATUS_ENUM,
+    default: MATCH_STATUS_ENUM.RECRUITING,
     nullable: true,
   })
   @Field(() => String, { nullable: true })

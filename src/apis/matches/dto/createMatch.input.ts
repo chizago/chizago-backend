@@ -2,7 +2,7 @@ import { Field, InputType, Int } from '@nestjs/graphql';
 import { LocationInput } from 'src/apis/locations/dto/createLocation.input';
 
 @InputType()
-export class CreateMatchingInput {
+export class CreateMatchInput {
   @Field(() => String, { nullable: true })
   title: string;
 
