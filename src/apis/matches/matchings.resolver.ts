@@ -10,11 +10,11 @@ import { MatchesService } from './matchings.service';
 export class MatchesResolver {
   constructor(private readonly matchesService: MatchesService) {}
 
-  @Query(() => [Match])
+  @Query(() => Match)
   fetchMatch(
     @Args('matchId') matchId: string, //
   ) {
-    //
+    return this.matchesService.findOne(matchId);
   }
 
   // @UseGuards(GqlAuthAccessGuard)
