@@ -1,5 +1,5 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
-import { LocationInput } from 'src/apis/locations/dto/createLocation.input';
+import { CreateLocationInput } from 'src/apis/locations/dto/createLocation.input';
 
 @InputType()
 export class CreateMatchInput {
@@ -18,8 +18,8 @@ export class CreateMatchInput {
   @Field(() => String, { nullable: true })
   contents: string;
 
-  @Field(() => LocationInput, { nullable: true })
-  location: LocationInput;
+  @Field(() => CreateLocationInput, { nullable: true })
+  location: CreateLocationInput;
 
   @Field(() => String, { nullable: true })
   date: string;
