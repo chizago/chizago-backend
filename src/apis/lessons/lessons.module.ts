@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Image } from '../images/entities/image.entity';
+import { ImagesService } from '../images/image.service';
+import { User } from '../users/entities/user.entity';
 import { Lesson } from './entites/lesson.entity';
 import { LessonsResolver } from './lessons.resolver';
 import { LessonsService } from './lessons.service';
@@ -8,11 +11,14 @@ import { LessonsService } from './lessons.service';
   imports: [
     TypeOrmModule.forFeature([
       Lesson, //
+      Image,
+      User,
     ]),
   ],
   providers: [
     LessonsResolver, //
     LessonsService,
+    ImagesService,
   ],
 })
 export class LessonsModule {}

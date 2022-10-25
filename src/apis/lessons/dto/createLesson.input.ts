@@ -1,4 +1,4 @@
-import { Field, InputType, Int } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateLessonInput {
@@ -19,4 +19,7 @@ export class CreateLessonInput {
 
   @Field(() => [String], { nullable: true })
   image: string[];
+
+  @Field(() => String, { nullable: true })
+  location: string;
 }
