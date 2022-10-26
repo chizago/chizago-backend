@@ -7,11 +7,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ChatRoom } from './chatRoom.entity';
+import { MatchChatRoom } from './matchChatRoom.entity';
 
 @Entity()
 @ObjectType()
-export class ChatMessage {
+export class MatchChatMessage {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,9 +23,9 @@ export class ChatMessage {
   @Field(() => Date)
   createdAt: Date;
 
-  @ManyToOne(() => ChatRoom)
-  @Field(() => ChatRoom)
-  room: ChatRoom;
+  @ManyToOne(() => MatchChatRoom)
+  @Field(() => MatchChatRoom)
+  room: MatchChatRoom;
 
   @ManyToOne(() => User)
   @Field(() => User)

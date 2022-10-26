@@ -11,7 +11,7 @@ import {
 
 @Entity()
 @ObjectType()
-export class ChatRoom {
+export class MatchChatRoom {
   @PrimaryColumn()
   @Field(() => String)
   id: string;
