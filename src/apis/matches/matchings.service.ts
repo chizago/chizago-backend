@@ -136,10 +136,6 @@ export class MatchesService {
         ...location,
       });
       await queryRunner.manager.save(newLocation);
-      // const newLocation = await this.locationRepository.save({
-      //   id: match.location.id,
-      //   ...location,
-      // });
 
       //매치 스타일 찾기
       const newMatchStyle = await this.matchStyleRepository.findOne({
@@ -165,15 +161,6 @@ export class MatchesService {
         ...restMatch,
       });
       await queryRunner.manager.save(updatedMatch);
-      // const updatedMatch = await this.matchRepository.save({
-      //   ...match,
-      //   ageMax: age,
-      //   ageMin: age,
-      //   location: newLocation,
-      //   matchStyle: newMatchStyle,
-      //   date: newDate,
-      //   ...restMatch,
-      // });
 
       //트랜잭션 commit 확정
       await queryRunner.commitTransaction();
