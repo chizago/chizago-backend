@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 import { Location } from '../locations/entites/location.entity';
 import { MatchStyle } from '../matchStyles/entities/matchStyle.entity';
 import { User } from '../users/entities/user.entity';
 import { CreateMatchInput } from './dto/createMatch.input';
+import { UpdateMatchInput } from './dto/updateMatch.input';
 import { Match } from './entities/match.entity';
 
 @Injectable()
@@ -25,7 +26,7 @@ export class MatchesService {
     private readonly connection: Connection,
   ) {}
 
-  findOne(matchId: string) {
+  findOne(matchId: string): Promise<Match> {
     return this.matchRepository.findOne({
       where: { id: matchId },
       relations: {
@@ -39,7 +40,7 @@ export class MatchesService {
   async create(
     createMatchInput: CreateMatchInput, //
     email: string,
-  ) {
+  ): Promise<Match> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
 
@@ -61,7 +62,7 @@ export class MatchesService {
         where: { matchStyleName: matchStyle },
       });
       if (!newMatchStyle) {
-        throw new NotFoundException(
+        throw new ConflictException(
           '매치 스타일 값이 잘못되었습니다. 매치 스타일을 확인해주세요.',
         );
       }
@@ -80,7 +81,6 @@ export class MatchesService {
         ageMax: age,
         ageMin: age,
         date: newDate,
-        player: newMatchStyle.player,
         matchStyle: newMatchStyle,
         user,
         location: newLocation,
@@ -98,5 +98,59 @@ export class MatchesService {
       //QueryRunner 연결 해제
       await queryRunner.release();
     }
+  }
+
+  async update(
+    matchId: string,
+    updateMatchInput: UpdateMatchInput, //
+    email: string,
+  ): Promise<Match> {
+    //해당 매치 가져오기
+    const match = await this.matchRepository.findOne({
+      where: { id: matchId },
+      relations: {
+        matchStyle: true,
+        user: true,
+        location: true,
+      },
+    });
+
+    //temporary - 작성자가 일치한지 확인
+    if (email !== match.user.email) {
+      throw new ConflictException('수정할 권한이 없는 사용자입니다.');
+    }
+
+    const { location, matchStyle, date, time, age, ...restMatch } =
+      updateMatchInput;
+
+    //위치 정보 수정
+    const newLocation = await this.locationRepository.save({
+      id: match.location.id,
+      ...location,
+    });
+
+    //매치 스타일 찾기
+    const newMatchStyle = await this.matchStyleRepository.findOne({
+      where: { matchStyleName: matchStyle },
+    });
+    if (!newMatchStyle) {
+      throw new ConflictException(
+        '매치 스타일 값이 잘못되었습니다. 매치 스타일을 확인해주세요.',
+      );
+    }
+
+    //날짜 및 시간 입력값 합치기
+    const newDate = new Date(`${date} ${time}`);
+
+    const updatedMatch = await this.matchRepository.save({
+      ...match,
+      ageMax: age,
+      ageMin: age,
+      location: newLocation,
+      matchStyle: newMatchStyle,
+      date: newDate,
+      ...restMatch,
+    });
+    return updatedMatch;
   }
 }

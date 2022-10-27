@@ -61,9 +61,9 @@ export class Match {
   @Field(() => Date, { nullable: true })
   date: Date;
 
-  @Column({ nullable: true })
-  @Field(() => Int, { nullable: true })
-  player: number;
+  // @Column({ nullable: true })
+  // @Field(() => Int, { nullable: true })
+  // player: number;
 
   @Column({ nullable: true })
   @Field(() => String, { nullable: true })
