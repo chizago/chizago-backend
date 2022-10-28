@@ -6,6 +6,7 @@ import { User } from '../users/entities/user.entity';
 import { Match } from './entities/match.entity';
 import { MatchesResolver } from './matchings.resolver';
 import { MatchesService } from './matchings.service';
+import { ElasticsearchModule } from '@nestjs/elasticsearch';
 
 @Module({
   imports: [
@@ -15,6 +16,9 @@ import { MatchesService } from './matchings.service';
       MatchStyle,
       User,
     ]),
+    ElasticsearchModule.register({
+      node: 'http://elasticsearch:9200',
+    }),
   ],
   providers: [
     MatchesResolver, //

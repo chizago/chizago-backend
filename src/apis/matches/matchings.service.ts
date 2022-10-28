@@ -26,6 +26,17 @@ export class MatchesService {
     private readonly connection: Connection,
   ) {}
 
+  findAll(): Promise<Match[]> {
+    return this.matchRepository.find({
+      relations: {
+        matchStyle: true,
+        user: true,
+        location: true,
+      },
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   findOne(matchId: string): Promise<Match> {
     return this.matchRepository.findOne({
       where: { id: matchId },
@@ -94,6 +105,7 @@ export class MatchesService {
     } catch (error) {
       //에러 발생 시 Rollback
       await queryRunner.rollbackTransaction();
+      throw new ConflictException(error);
     } finally {
       //QueryRunner 연결 해제
       await queryRunner.release();

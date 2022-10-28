@@ -39,3 +39,4 @@ lerna-debug.log*
 *.gql
 /frontend
 /gcp-bucket-keyfile.json
+/elk/logstash/mysql-connector-java-8.0.28.jar
