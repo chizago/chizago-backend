@@ -9,9 +9,15 @@ export class UsersService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {
-    //
+    // 등록된 유저 전체 조회
   }
   async findAll() {
     const users = await this.userRepository.find({});
+  }
+  //관리자용 유저 한명 조회
+  findOneById({ userId }) {
+    return this.userRepository.findOne({
+      where: { id: userId },
+    });
   }
 }
