@@ -10,7 +10,7 @@ export class UsersResolver {
   constructor(
     private readonly usersService: UsersService, //
   ) {}
-  @UseGuards(GqlAuthAccessGuard)
+  // @UseGuards(GqlAuthAccessGuard)
   @Query(() => [User])
   async fetchUsers(
     @Context() context: IContext, //
