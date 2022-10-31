@@ -23,7 +23,7 @@ export class LocationsResolver {
   ) {}
 
   /** 위치 생성 */
-  // @UseGuards(GqlAuthAccessGuard)
+  @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => Location)
   async createLocation(
     @Args('createLocationInput') createLocationInput: CreateLocationInput,

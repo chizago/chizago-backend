@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ClassLike } from '../classLikes/entities/classLike.entity';
 import { Image } from '../images/entities/image.entity';
 import { ImagesService } from '../images/image.service';
 import { User } from '../users/entities/user.entity';
@@ -13,6 +14,7 @@ import { LessonsService } from './lessons.service';
       Lesson, //
       Image,
       User,
+      ClassLike,
     ]),
   ],
   providers: [
