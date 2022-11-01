@@ -14,7 +14,12 @@ export class UsersService {
   async findAll() {
     const users = await this.userRepository.find({});
   }
-
+  //관리자용 유저 한명 조회
+  findOneById({ userId }) {
+    return this.userRepository.findOne({
+      where: { id: userId },
+    });
+  }
   async checkUserExisted({ email }) {
     const result = await this.userRepository.findOne({
       where: { email },
@@ -41,11 +46,5 @@ export class UsersService {
       winningRate: 0,
     });
     return userResult;
-  }
-  //관리자용 유저 한명 조회
-  findOneById({ userId }) {
-    return this.userRepository.findOne({
-      where: { id: userId },
-    });
   }
 }
