@@ -42,4 +42,10 @@ export class UsersService {
     });
     return userResult;
   }
+  //관리자용 유저 한명 조회
+  findOneById({ userId }) {
+    return this.userRepository.findOne({
+      where: { id: userId },
+    });
+  }
 }
