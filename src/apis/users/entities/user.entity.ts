@@ -1,6 +1,7 @@
 import { Field, Float, ObjectType } from '@nestjs/graphql';
 import { Lesson } from 'src/apis/lessons/entites/lesson.entity';
 import { Match } from 'src/apis/matches/entities/match.entity';
+import { Score } from 'src/apis/score/entities/score.entity';
 
 import {
   Column,
@@ -22,44 +23,44 @@ export class User {
   @Field(() => String)
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String)
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String)
   nickname: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => Number)
   password: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => Float)
   temperature: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => Float)
   ntrp: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => Number)
   career: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => Number)
   point: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => Boolean)
   gender: boolean;
   //boolean으로 할지,string으로 할지...
 
-  @Column()
+  @Column({ nullable: true })
   @Field(() => String)
   profileImg: string;
 
-  @Field(() => Boolean)
+  @Field(() => Boolean, { nullable: true })
   isAdmin: boolean;
 
   @CreateDateColumn()
@@ -84,4 +85,10 @@ export class User {
   })
   @Field(() => [Lesson], { nullable: true })
   lesson: Lesson[];
+
+  //전적
+  @JoinColumn()
+  @OneToOne(() => Score)
+  @Field(() => Score, { nullable: true })
+  score: Score;
 }
