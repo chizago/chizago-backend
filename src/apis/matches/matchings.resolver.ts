@@ -1,4 +1,5 @@
 import { UseGuards } from '@nestjs/common';
+import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { IContext } from 'src/commons/type/context';
@@ -9,7 +10,26 @@ import { MatchesService } from './matchings.service';
 
 @Resolver()
 export class MatchesResolver {
-  constructor(private readonly matchesService: MatchesService) {}
+  constructor(
+    private readonly matchesService: MatchesService, //
+    private readonly elasticsearchService: ElasticsearchService,
+  ) {}
+
+  @Query(() => [Match])
+  fetchMatches() {
+    // @Args('search') search: string, //
+    // if (search) {
+    // const result = this.elasticsearchService.search({
+    //   index: 'matches',
+    //   query: {
+    //     match_all: {},
+    //   },
+    // });
+    // console.log(JSON.stringify(result, null, ' '));
+    // }
+
+    return this.matchesService.findAll();
+  }
 
   @Query(() => Match)
   fetchMatch(
