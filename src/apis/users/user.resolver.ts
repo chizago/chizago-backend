@@ -28,8 +28,15 @@ export class UsersResolver {
     await this.usersService.checkUserExisted({
       email: createUserInput.email,
     });
+
+    //패스워드 암호화
     const { password, ...user } = createUserInput;
-    // 개선 필요
-    return this.usersService.create({ newUser: user, newHashedPwd: password });
+    const newHashedPwd = await this.usersService.encrypPassword({ password });
+
+    //유저 생성
+    return this.usersService.create({
+      newUser: user,
+      newHashedPwd,
+    });
   }
 }

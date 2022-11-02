@@ -11,7 +11,7 @@ export class CreateUserInput {
   @Field(() => String, { nullable: true, name: 'nickname' })
   nickname: string;
 
-  @Field(() => String, { nullable: true, name: 'gender' })
+  @Field(() => Boolean, { nullable: true, name: 'gender' })
   gender: boolean;
 
   @Field(() => Float, { nullable: true, name: 'ntrp' })

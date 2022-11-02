@@ -32,8 +32,16 @@ export class User {
   nickname: string;
 
   @Column({ nullable: true })
-  @Field(() => Number)
-  password: number;
+  @Field(() => String)
+  password: string;
+
+  @Column({ nullable: true })
+  @Field(() => String)
+  phoneNum: string;
+
+  @Column({ nullable: true })
+  @Field(() => String)
+  zipCode: string;
 
   @Column({ nullable: true })
   @Field(() => Float)
@@ -48,13 +56,8 @@ export class User {
   career: number;
 
   @Column({ nullable: true })
-  @Field(() => Number)
-  point: number;
-
-  @Column({ nullable: true })
   @Field(() => Boolean)
   gender: boolean;
-  //boolean으로 할지,string으로 할지...
 
   @Column({ nullable: true })
   @Field(() => String)
