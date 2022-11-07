@@ -12,8 +12,9 @@ import { LessonsModule } from './apis/lessons/lessons.module';
 import { LocationsModule } from './apis/locations/locations.module';
 import { MatchStylesModule } from './apis/matchStyles/matchStyles.module';
 import { UsersModule } from './apis/users/user.module';
-import { ReportsModule } from './apis/reports/reports.module';
 import { MatchesModule } from './apis/matches/matchings.module';
+import { ClassApplicantsModule } from './apis/classApplicants/classApplicants.module';
+import { ReportsModule } from './apis/reports/reports.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MatchesModule } from './apis/matches/matchings.module';
     MatchesModule,
     MatchStylesModule,
     ReportsModule,
+    ClassApplicantsModule,
     UsersModule,
     ConfigModule.forRoot({
       isGlobal: true,
