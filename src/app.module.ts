@@ -15,6 +15,7 @@ import { UsersModule } from './apis/users/user.module';
 import { MatchesModule } from './apis/matches/matchings.module';
 import { ClassApplicantsModule } from './apis/classApplicants/classApplicants.module';
 import { ReportsModule } from './apis/reports/reports.module';
+import { ClassReviewModule } from './apis/classReviews/classReview.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ReportsModule } from './apis/reports/reports.module';
     ReportsModule,
     ClassApplicantsModule,
     UsersModule,
+    ClassReviewModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
