@@ -75,4 +75,28 @@ export class MatchesResolver {
     //해당 매치 수정
     return this.matchesService.update(matchId, updateMatchInput, email);
   }
+
+  // @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => Boolean)
+  async deleteMatch(
+    @Args('matchId') matchId: string, //
+  ) {
+    //delete할 때 권한이 있는지 확인하기 -> user findOne 사용해서 가져오기
+    //delete할 때 이미지 버킷에 저장하기
+
+    //매치 데이터 삭제
+    const result = await this.matchesService.delete(matchId);
+
+    //ElasticSearch 데이터 삭제
+    await this.elasticsearchService.deleteByQuery({
+      index: 'match',
+      query: {
+        match: {
+          _id: matchId,
+        },
+      },
+    });
+
+    return result;
+  }
 }
