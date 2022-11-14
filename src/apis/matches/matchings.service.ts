@@ -187,6 +187,48 @@ export class MatchesService {
     }
   }
 
+  async delete(matchId: string): Promise<boolean> {
+    const queryRunner = this.connection.createQueryRunner();
+    await queryRunner.connect();
+
+    //트랜잭션 시작
+    await queryRunner.startTransaction('SERIALIZABLE');
+
+    try {
+      //매치 데이터 찾기
+      const match = await this.matchRepository.findOne({
+        where: { id: matchId },
+        relations: {
+          location: true,
+        },
+      });
+      if (!match) {
+        throw new ConflictException('존재하지 않는 매치입니다.');
+      }
+
+      //위치 정보 삭제
+      await queryRunner.manager.softDelete(Location, { id: match.location.id });
+
+      //매치 데이터 삭제
+      await queryRunner.manager.softDelete(Match, { id: match.id });
+
+      //버킷에서 이미지 삭제
+
+      //트랜잭션 commit 확정
+      await queryRunner.commitTransaction();
+
+      return true;
+    } catch (error) {
+      //에러발생시 commit rollback
+      await queryRunner.rollbackTransaction();
+
+      throw new ConflictException(error);
+    } finally {
+      //queryRunner 연결 해제
+      await queryRunner.release();
+    }
+  }
+
   parseData(result: object[]) {
     return result.map((ele) => {
       return this.matchRepository.create({
