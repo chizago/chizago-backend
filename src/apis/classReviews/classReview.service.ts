@@ -19,6 +19,14 @@ export class ClassReviewService {
     private readonly classApplicant: Repository<ClassApplicant>,
   ) {}
 
+  find({ id }) {
+    return this.classReview.find({
+      where: {
+        lesson: { id },
+      },
+    });
+  }
+
   async create({ id, contents, email }) {
     //사용자 정보 찾기
     const user: any = await this.userRepository.findOne({

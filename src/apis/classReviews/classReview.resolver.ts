@@ -1,5 +1,5 @@
 import { UseGuards } from '@nestjs/common';
-import { Args, Context, Mutation, Resolver } from '@nestjs/graphql';
+import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { ClassReviewService } from './classReview.service';
 import { ClassReview } from './entities/classReview.entity';
@@ -9,6 +9,13 @@ export class ClassReviewResolver {
   constructor(
     private readonly classReviewService: ClassReviewService, //
   ) {}
+
+  @Query(() => [ClassReview])
+  fetchReviews(
+    @Args({ name: 'id', description: 'lesson uuid' }) id: string, //
+  ) {
+    return this.classReviewService.find({ id });
+  }
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => ClassReview)
