@@ -186,4 +186,24 @@ export class MatchesService {
       await queryRunner.release();
     }
   }
+
+  parseData(result: object[]) {
+    return result.map((ele) => {
+      return this.matchRepository.create({
+        id: ele['_source'].id,
+        title: ele['_source'].title,
+        matchStyle: {
+          matchStyleName: ele['_source'].matchStyleName,
+        },
+        location: {
+          address: ele['_source'].address,
+          addressDetail: ele['_source'].addressDetail,
+        },
+        level: ele['_source'].level,
+        imgUrl: ele['_source'].imgUrl,
+        status: ele['_source'].status,
+        date: ele['_source'].date,
+      });
+    });
+  }
 }

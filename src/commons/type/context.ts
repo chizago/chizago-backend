@@ -17,3 +17,9 @@ export interface IOAuthUser {
     nickname: string;
   };
 }
+
+export interface IElasticSearch {
+  hits: {
+    hits: object[];
+  };
+}
