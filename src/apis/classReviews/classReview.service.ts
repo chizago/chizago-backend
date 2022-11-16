@@ -10,7 +10,7 @@ import { ClassReview } from './entities/classReview.entity';
 export class ClassReviewService {
   constructor(
     @InjectRepository(ClassReview)
-    private readonly classReview: Repository<ClassReview>,
+    private readonly classReviewRepository: Repository<ClassReview>,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
     @InjectRepository(Lesson)
@@ -20,7 +20,7 @@ export class ClassReviewService {
   ) {}
 
   find({ id }) {
-    return this.classReview.find({
+    return this.classReviewRepository.find({
       where: {
         lesson: { id },
       },
@@ -46,7 +46,7 @@ export class ClassReviewService {
     }
 
     //lesson 찾기
-    const lesson: any = await this.lessonRepository.find({
+    const lesson: any = await this.lessonRepository.findOne({
       where: { id },
     });
     //lesson 예외처리
@@ -55,10 +55,28 @@ export class ClassReviewService {
     }
 
     //리뷰 저장하기
-    return this.classReview.save({
+    return this.classReviewRepository.save({
       contents,
       user,
       lesson,
+    });
+  }
+
+  async update({ email, contents, id }) {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+    const preReview = await this.classReviewRepository.findOne({
+      where: {
+        lesson: { id },
+        user: { id: user.id }, //
+      },
+    });
+    if (!preReview) throw new ConflictException('해당 리뷰 정보가 없습니다.');
+
+    return this.classReviewRepository.save({
+      ...preReview,
+      contents,
     });
   }
 }

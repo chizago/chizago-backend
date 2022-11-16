@@ -27,4 +27,15 @@ export class ClassReviewResolver {
     const email = context.req.user.email;
     return this.classReviewService.create({ id, contents, email });
   }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => Boolean)
+  updateReview(
+    @Context() context: any, //
+    @Args({ name: 'contents', description: '리뷰 내용' }) contents: string, //
+    @Args({ name: 'id', description: 'lesson uuid' }) id: string,
+  ) {
+    const email = context.user.email;
+    return this.classReviewService.update({ email, contents, id });
+  }
 }
