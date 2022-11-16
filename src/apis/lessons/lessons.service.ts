@@ -109,6 +109,7 @@ export class LessonsService {
     if (image) {
       await this.imagesService.createLessonImage({ image, result });
     }
+    return result;
   }
 
   async update({
@@ -156,7 +157,7 @@ export class LessonsService {
       ),
     );
 
-    const result = this.lessonsRepository.save({
+    const result = await this.lessonsRepository.save({
       ...myLesson,
       ...updateLessonInput,
     });

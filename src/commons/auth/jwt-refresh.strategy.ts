@@ -3,7 +3,7 @@ import { Strategy } from 'passport-jwt';
 import { CACHE_MANAGER, Inject, UnauthorizedException } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 
-// 해당 로직을 통과 하여야만 Guard를 통과 할 수 있음.
+// 해당 로직을 통과 하여야만 Guard를 통과할 수 있음.
 export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
   constructor(
     @Inject(CACHE_MANAGER)
@@ -15,7 +15,7 @@ export class JwtRefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
         const refreshToken = cookie.replace('refreshToken=', '');
         return refreshToken;
       },
-      secretOrKey: process.env.REFRESH_TOKEN_SECRET,
+      secretOrKey: 'myRefreshKey',
       passReqToCallback: true,
     });
   }

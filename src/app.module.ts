@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { CacheModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -16,6 +16,9 @@ import { MatchesModule } from './apis/matches/matchings.module';
 import { ClassApplicantsModule } from './apis/classApplicants/classApplicants.module';
 import { ReportsModule } from './apis/reports/reports.module';
 import { ClassReviewModule } from './apis/classReviews/classReview.module';
+import { AuthsModule } from './apis/auths/auths.module';
+import { RedisClientOptions } from 'redis';
+import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [
@@ -30,6 +33,7 @@ import { ClassReviewModule } from './apis/classReviews/classReview.module';
     ClassApplicantsModule,
     UsersModule,
     ClassReviewModule,
+    AuthsModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -52,6 +56,11 @@ import { ClassReviewModule } from './apis/classReviews/classReview.module';
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
       logging: true,
+    }),
+    CacheModule.register<RedisClientOptions>({
+      store: redisStore,
+      url: 'redis://my-redis:6379',
+      isGlobal: true,
     }),
   ],
   controllers: [AppController],

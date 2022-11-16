@@ -46,9 +46,9 @@ export class Lesson {
   @Field(() => Boolean, { nullable: true })
   status: boolean;
 
-  @CreateDateColumn()
-  @Field(() => Date)
-  startDate: Date;
+  @Column()
+  @Field(() => String)
+  startDate: string;
 
   @Column()
   @Field(() => String)
