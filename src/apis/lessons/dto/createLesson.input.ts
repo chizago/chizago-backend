@@ -11,8 +11,8 @@ export class CreateLessonInput {
   @Field(() => String)
   num: string;
 
-  @Field(() => Date)
-  startDate: Date;
+  @Field(() => String)
+  startDate: string;
 
   @Field(() => String)
   period: string;
