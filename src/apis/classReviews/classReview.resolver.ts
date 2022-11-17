@@ -29,7 +29,7 @@ export class ClassReviewResolver {
   }
 
   @UseGuards(GqlAuthAccessGuard)
-  @Mutation(() => Boolean)
+  @Mutation(() => ClassReview)
   updateReview(
     @Context() context: any, //
     @Args({ name: 'contents', description: '리뷰 내용' }) contents: string, //
@@ -37,5 +37,15 @@ export class ClassReviewResolver {
   ) {
     const email = context.user.email;
     return this.classReviewService.update({ email, contents, id });
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => Boolean)
+  deleteReview(
+    @Context() context: any, //
+    @Args({ name: 'id', description: 'review uuid' }) id: string,
+  ) {
+    const email = context.user.email;
+    return this.classReviewService.delete({ email, id });
   }
 }
