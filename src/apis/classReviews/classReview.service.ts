@@ -16,7 +16,7 @@ export class ClassReviewService {
     @InjectRepository(Lesson)
     private readonly lessonRepository: Repository<Lesson>,
     @InjectRepository(ClassApplicant)
-    private readonly classApplicant: Repository<ClassApplicant>,
+    private readonly classApplicantRepository: Repository<ClassApplicant>,
   ) {}
 
   find({ id }) {
@@ -34,12 +34,14 @@ export class ClassReviewService {
     });
 
     //신청자에 유저 존재 찾기
-    const classApplicantUSer: any = await this.classApplicant.findOne({
-      where: {
-        user: { id: user.id },
+    const classApplicantUSer: any = await this.classApplicantRepository.findOne(
+      {
+        where: {
+          user: { id: user.id },
+        },
+        relations: ['user', 'lesson'],
       },
-      relations: ['user', 'lesson'],
-    });
+    );
     //신청자 정보 예외처리
     if (!classApplicantUSer) {
       throw new ConflictException('신청 정보가 없습니다.');
@@ -78,5 +80,19 @@ export class ClassReviewService {
       ...preReview,
       contents,
     });
+  }
+  async delete({ email, id }) {
+    //유저 찾기
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+
+    //리뷰삭제하기 (완전삭제 복구 불가)
+    const result = await this.classReviewRepository.delete({
+      id,
+      user: { id: user.id },
+    });
+
+    return result.affected ? true : false;
   }
 }
