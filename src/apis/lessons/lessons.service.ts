@@ -93,7 +93,7 @@ export class LessonsService {
   }
 
   async findByLessonRecommend() {
-    const randonLesson = await this.lessonsRepository.find({
+    const randomLesson = await this.lessonsRepository.find({
       relations: [
         'images',
         'location',
@@ -105,18 +105,18 @@ export class LessonsService {
     });
     const idx = [];
 
-    if (randonLesson.length <= 3) {
-      return randonLesson;
+    if (randomLesson.length <= 3) {
+      return randomLesson;
     }
 
     while (idx.length <= 3) {
-      const tmp = Math.floor(Math.random() * randonLesson.length);
+      const tmp = Math.floor(Math.random() * randomLesson.length);
       if (idx.includes(tmp)) continue;
 
       idx.push(tmp);
     }
     const ret = idx.map((v, i) => {
-      return randonLesson[v];
+      return randomLesson[v];
     });
 
     return ret;
