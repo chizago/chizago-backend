@@ -92,6 +92,36 @@ export class LessonsService {
     });
   }
 
+  async findByLessonRecommend() {
+    const randonLesson = await this.lessonsRepository.find({
+      relations: [
+        'images',
+        'location',
+        'user',
+        'classLike',
+        'classApplicant',
+        'classReview',
+      ],
+    });
+    const idx = [];
+
+    if (randonLesson.length <= 3) {
+      return randonLesson;
+    }
+
+    while (idx.length <= 3) {
+      const tmp = Math.floor(Math.random() * randonLesson.length);
+      if (idx.includes(tmp)) continue;
+
+      idx.push(tmp);
+    }
+    const ret = idx.map((v, i) => {
+      return randonLesson[v];
+    });
+
+    return ret;
+  }
+
   async create({ user, createLessonInput }) {
     const { location, image, ...lesson } = createLessonInput;
 

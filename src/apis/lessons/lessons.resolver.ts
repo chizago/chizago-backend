@@ -13,6 +13,7 @@ import { LessonsService } from './lessons.service';
  * 'fetchLesson',
  * 'fetchLessons',
  * 'fetchLessonsByCreatedAt',
+ * 'fetchRecommendLesson',
  * 'createLesson',
  * 'updateLesson',
  * 'deleteLesson',
@@ -68,6 +69,11 @@ export class LessonsResolver {
       page,
       sortBy,
     });
+  }
+
+  @Query(() => [Lesson])
+  fetchRecommendLesson() {
+    return this.lessonsService.findByLessonRecommend();
   }
 
   /** 클래스 생성 */
