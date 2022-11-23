@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Lesson } from '../lessons/entites/lesson.entity';
 import { ClassApplicant } from './entities/classApplicant.entity';
 
 @Injectable()
@@ -8,6 +9,9 @@ export class ClassApplicantsService {
   constructor(
     @InjectRepository(ClassApplicant)
     private readonly classApplicantRepository: Repository<ClassApplicant>,
+
+    @InjectRepository(Lesson)
+    private readonly lessonRepository: Repository<Lesson>,
   ) {}
 
   find() {
@@ -21,7 +25,7 @@ export class ClassApplicantsService {
     const { lessonId } = createClassApplicantInput;
     const userId = context.req.user.id;
 
-    const lesson = await this.classApplicantRepository.findOne({
+    const lesson = await this.lessonRepository.findOne({
       where: { id: lessonId },
     });
 

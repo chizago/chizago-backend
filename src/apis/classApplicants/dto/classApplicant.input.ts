@@ -2,8 +2,8 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class CreateClassApplicantInput {
-  @Field(() => Date)
-  applyDate: Date;
+  @Field(() => String)
+  applyDate: string;
 
   @Field(() => String)
   lessonId: string;

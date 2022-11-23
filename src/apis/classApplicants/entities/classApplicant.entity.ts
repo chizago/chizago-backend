@@ -17,8 +17,8 @@ export class ClassApplicant {
   id: string;
 
   @Column()
-  @Field(() => Date)
-  applyDate: Date;
+  @Field(() => String)
+  applyDate: string;
 
   @Column({ nullable: true })
   @Field(() => Boolean, { nullable: true })
