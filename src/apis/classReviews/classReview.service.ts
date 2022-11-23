@@ -27,6 +27,17 @@ export class ClassReviewService {
     });
   }
 
+  async findUser({ email }) {
+    const user = await this.userRepository.findOne({
+      where: { email },
+    });
+    return this.classApplicantRepository.find({
+      where: {
+        user: { id: user.id },
+      },
+    });
+  }
+
   async create({ id, contents, email }) {
     //사용자 정보 찾기
     const user: any = await this.userRepository.findOne({

@@ -16,6 +16,14 @@ export class ClassReviewResolver {
   ) {
     return this.classReviewService.find({ id });
   }
+  @UseGuards(GqlAuthAccessGuard)
+  @Query(() => [ClassReview])
+  fetchUserReviews(
+    @Context() context: any, //
+  ) {
+    const email = context.req.user.email;
+    return this.classReviewService.findUser({ email });
+  }
 
   @UseGuards(GqlAuthAccessGuard)
   @Mutation(() => ClassReview)
