@@ -7,6 +7,7 @@ import { Match } from './entities/match.entity';
 import { MatchesResolver } from './matchings.resolver';
 import { MatchesService } from './matchings.service';
 import { ElasticsearchModule } from '@nestjs/elasticsearch';
+import { UsersService } from '../users/user.service';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ElasticsearchModule } from '@nestjs/elasticsearch';
   providers: [
     MatchesResolver, //
     MatchesService,
+    UsersService,
   ],
 })
 export class MatchesModule {}

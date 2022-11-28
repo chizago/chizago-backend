@@ -50,7 +50,7 @@ export class MatchesService {
 
   async create(
     createMatchInput: CreateMatchInput, //
-    email: string,
+    user: User,
   ): Promise<Match> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
@@ -80,11 +80,6 @@ export class MatchesService {
 
       //날짜 및 시간 입력값 합치기
       const newDate = new Date(`${date} ${time}`);
-
-      //temporary - user
-      const user = await this.userRepository.findOne({
-        where: { email },
-      });
 
       //temporary - 모집 연령을 max, min으로 나눌지 string으로 받을 지 한 연령대만 넣을 지 상의가 안돼었으므로 현재 db에 따라 개발
       const newMatching = this.matchRepository.create({
@@ -134,7 +129,7 @@ export class MatchesService {
         },
       });
 
-      //temporary - 작성자가 일치한지 확인
+      //접근한 유저와 작성자가 일치한지 확인
       if (email !== match.user.email) {
         throw new ConflictException('수정할 권한이 없는 사용자입니다.');
       }
@@ -187,7 +182,10 @@ export class MatchesService {
     }
   }
 
-  async delete(matchId: string): Promise<boolean> {
+  async delete(
+    matchId: string, //
+    email: string,
+  ): Promise<boolean> {
     const queryRunner = this.connection.createQueryRunner();
     await queryRunner.connect();
 
@@ -200,14 +198,22 @@ export class MatchesService {
         where: { id: matchId },
         relations: {
           location: true,
+          user: true,
         },
       });
       if (!match) {
         throw new ConflictException('존재하지 않는 매치입니다.');
       }
 
+      //유저가 작성자가 맞는지 확인
+      if (email !== match.user.email) {
+        throw new ConflictException('삭제할 권한이 없는 사용자입니다.');
+      }
+
       //위치 정보 삭제
-      await queryRunner.manager.softDelete(Location, { id: match.location.id });
+      await queryRunner.manager.softDelete(Location, {
+        id: match.location.id,
+      });
 
       //매치 데이터 삭제
       await queryRunner.manager.softDelete(Match, { id: match.id });
