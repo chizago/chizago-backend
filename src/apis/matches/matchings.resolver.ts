@@ -22,6 +22,7 @@ export class MatchesResolver {
     @Args('search') search: string, //
   ) {
     if (search) {
+      //검색
       const result: IElasticSearch = await this.elasticsearchService.search({
         index: 'match',
         query: {
@@ -29,6 +30,10 @@ export class MatchesResolver {
             title: search,
           },
         },
+        sort: {
+          updated: 'desc',
+        },
+        //페이지네이션 추가
       });
       // console.log(JSON.stringify(result.hits.hits, null, ' '));
 
