@@ -3,6 +3,7 @@ import { ElasticsearchService } from '@nestjs/elasticsearch';
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { GqlAuthAccessGuard } from 'src/commons/auth/gql-auth.guard';
 import { IContext, IElasticSearch } from 'src/commons/type/context';
+import { ApplicantsService } from '../applicants/applicants.service';
 import { UsersService } from '../users/user.service';
 import { CreateMatchInput } from './dto/createMatch.input';
 import { UpdateMatchInput } from './dto/updateMatch.input';
@@ -14,6 +15,7 @@ export class MatchesResolver {
   constructor(
     private readonly matchesService: MatchesService, //
     private readonly usersService: UsersService,
+    private readonly applicantsService: ApplicantsService,
     private readonly elasticsearchService: ElasticsearchService,
   ) {}
 
@@ -127,5 +129,29 @@ export class MatchesResolver {
     });
 
     return result;
+  }
+
+  @UseGuards(GqlAuthAccessGuard)
+  @Mutation(() => Boolean)
+  async applyMatch(
+    @Args('matchId') matchId: string, //
+    @Context() context: IContext,
+  ) {
+    //유저 찾기
+    const user = await this.usersService.findOneByEmail({
+      email: context.req.user.email,
+    });
+    if (!user) {
+      throw new ConflictException('해당하는 유저의 정보가 없습니다.');
+    }
+
+    //매치 찾기
+    const match = await this.matchesService.findOne(matchId);
+    if (!match) {
+      throw new ConflictException('해당하는 매칭 정보가 없습니다.');
+    }
+
+    //신청 -> 나중에 match 정보와 함께 applicant들 정보 함께 줄 수 있는지 확인해보기
+    return this.applicantsService.apply(user, match);
   }
 }
