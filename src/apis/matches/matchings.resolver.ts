@@ -152,6 +152,6 @@ export class MatchesResolver {
     }
 
     //신청 -> 나중에 match 정보와 함께 applicant들 정보 함께 줄 수 있는지 확인해보기
-    return await this.applicantsService.apply(user, match);
+    return this.applicantsService.apply(user, match);
   }
 }
