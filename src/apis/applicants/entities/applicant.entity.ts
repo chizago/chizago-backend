@@ -1,7 +1,17 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
 import { Match } from 'src/apis/matches/entities/match.entity';
 import { User } from 'src/apis/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+
+export enum APPLICANT_STATUS_ENUM {
+  PENDING = '신청완료',
+  ALLOWED = '승인',
+  REJECTED = '거절',
+}
+
+registerEnumType(APPLICANT_STATUS_ENUM, {
+  name: 'APPLICANT_STATUS_ENUM',
+});
 
 @Entity()
 @ObjectType()
@@ -10,7 +20,12 @@ export class Applicant {
   @Field(() => String)
   id: string;
 
-  @Column({ nullable: true })
+  @Column({
+    type: 'enum',
+    enum: APPLICANT_STATUS_ENUM,
+    default: APPLICANT_STATUS_ENUM.PENDING,
+    nullable: true,
+  })
   @Field(() => String, { nullable: true })
   status: string;
 
@@ -20,5 +35,5 @@ export class Applicant {
 
   @ManyToOne(() => Match)
   @Field(() => Match, { nullable: true })
-  matching: Match;
+  match: Match;
 }
