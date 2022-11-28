@@ -36,6 +36,10 @@ export class ApplicantsService {
           id: matchId,
         },
       },
+      relations: {
+        match: true,
+        user: true,
+      },
     });
   }
 }
