@@ -10,11 +10,14 @@ export class ReportsResolver {
     private readonly reportsService: ReportsService, //
   ) {}
 
-  //오류방지 아무거나 query만들어놓음
-
   @Query(() => [Report])
   fetchReports() {
     return this.reportsService.find();
+  }
+
+  @Query(() => [Report])
+  fetchReportsWithDel() {
+    return this.reportsService.findWithDeleted();
   }
 
   @UseGuards(GqlAuthAccessGuard)
