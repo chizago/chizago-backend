@@ -1,9 +1,11 @@
 import { Field, ObjectType, registerEnumType } from '@nestjs/graphql';
+import { User } from 'src/apis/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -44,4 +46,8 @@ export class Report {
   @DeleteDateColumn()
   @Field(() => Date, { nullable: true })
   deletedAt: Date;
+
+  @ManyToOne(() => User)
+  @Field(() => User)
+  user: User;
 }
