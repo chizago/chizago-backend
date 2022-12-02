@@ -28,4 +28,18 @@ export class ApplicantsService {
     });
     return true;
   }
+
+  findAllByMatch(matchId: string): Promise<Applicant[]> {
+    return this.applicantRepository.find({
+      where: {
+        match: {
+          id: matchId,
+        },
+      },
+      relations: {
+        match: true,
+        user: true,
+      },
+    });
+  }
 }
