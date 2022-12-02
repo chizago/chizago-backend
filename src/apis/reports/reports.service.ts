@@ -16,6 +16,13 @@ export class ReportsService {
   find() {
     return this.reportRepository.find();
   }
+
+  async findWithDeleted() {
+    return await this.reportRepository.find({
+      withDeleted: true,
+    });
+  }
+
   async create({ email, type, contents }) {
     const user = await this.userRepository.findOne({
       where: { email },
